@@ -8,18 +8,17 @@ export default function Cover({ img, title }) {
         bgImageAlt="the cat"
         strength={-200}>
         <div
-          className="hero min-h-[600px]"
+          className="hero min-h-[500px]"
           style={{
             backgroundImage: `url("${img}")`,
           }}>
-          <div className="hero-overlay bg-opacity-60"></div>
+          {/* <div className="hero-overlay bg-opacity-60"></div> */}
           <div className="hero-content text-center text-neutral-content">
-            <div className="max-w-md">
+            <div className="max-w-xl w-full bg-slate-800/50 py-16 px-24">
               <h1 className="mb-5 text-5xl font-bold uppercase">{title}</h1>
               <p className="mb-5">
                 Provident cupiditate voluptatem et in. Quaerat fugiat ut
-                assumenda excepturi exercitationem quasi. In deleniti eaque aut
-                repudiandae et a id nisi.
+                assumenda excepturi exercitationem quasi.
               </p>
             </div>
           </div>
