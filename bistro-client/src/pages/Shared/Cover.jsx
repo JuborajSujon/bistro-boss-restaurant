@@ -3,15 +3,11 @@ export default function Cover({ img, title }) {
   return (
     <div>
       <Parallax
-        blur={{ min: -15, max: 15 }}
-        bgImage="path/to/image.jpg"
-        bgImageAlt="the cat"
+        blur={{ min: -50, max: 50 }}
+        bgImage={img}
+        bgImageAlt="the menu"
         strength={-200}>
-        <div
-          className="hero min-h-[500px]"
-          style={{
-            backgroundImage: `url("${img}")`,
-          }}>
+        <div className="hero min-h-[500px]">
           {/* <div className="hero-overlay bg-opacity-60"></div> */}
           <div className="hero-content text-center text-neutral-content">
             <div className="max-w-xl w-full bg-slate-800/50 py-16 px-24">
@@ -24,7 +20,6 @@ export default function Cover({ img, title }) {
           </div>
         </div>
       </Parallax>
-      );
     </div>
   );
 }
