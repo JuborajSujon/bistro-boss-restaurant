@@ -1,7 +1,11 @@
-import React from "react";
+import SectionTitle from "../../../Components/SectionTitle";
 
 const PopularMenu = () => {
-  return <div></div>;
+  return (
+    <section>
+      <SectionTitle subHeading="Popular Items" heading="From Our Menu" />
+    </section>
+  );
 };
 
 export default PopularMenu;
