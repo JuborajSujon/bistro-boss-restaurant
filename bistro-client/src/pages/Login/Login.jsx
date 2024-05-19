@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
@@ -7,16 +7,39 @@ import {
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
+import { FaGoogle } from "react-icons/fa";
 
 export default function Login() {
-  const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
-  const { user, signIn } = useContext(AuthContext);
+  const { signIn, signInWithGoogle } = useContext(AuthContext);
 
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
 
+  // google login
+  const handleGoogleLogin = () => {
+    signInWithGoogle()
+      .then((result) => {
+        if (result.user) {
+          Swal.fire({
+            title: "Login Successful",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // login with email and password
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -25,15 +48,26 @@ export default function Login() {
 
     signIn(email, password)
       .then((result) => {
-        const user = result.user;
+        if (result.user) {
+          Swal.fire({
+            title: "Login Successful",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+        }
         form.reset();
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const handleValidateCaptcha = () => {
-    const value = captchaRef.current.value;
+  const handleValidateCaptcha = (e) => {
+    e.preventDefault();
+    const value = e.target.value;
     if (validateCaptcha(value)) {
       setDisabled(false);
     } else {
@@ -55,8 +89,16 @@ export default function Login() {
               et a id nisi.
             </p>
           </div>
-          <div className="card md:w-1/2 w-full max-w-sm shadow-2xl bg-base-100">
-            <form onSubmit={handleLogin} className="card-body">
+
+          <div className="card md:w-1/2 w-full max-w-sm shadow-2xl bg-base-100 p-10">
+            <div
+              onClick={handleGoogleLogin}
+              className="flex justify-center items-center text-xl gap-2 py-2 border border-slate-300 rounded-md w-[90%] mx-auto ">
+              <FaGoogle />
+              Google Login
+            </div>
+            <div className="divider">or</div>
+            <form onSubmit={handleLogin} className="">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -91,16 +133,11 @@ export default function Login() {
                 <input
                   type="text"
                   name="captcha"
-                  ref={captchaRef}
+                  onBlur={handleValidateCaptcha}
                   placeholder="type the captcha"
                   className="input input-bordered"
                   required
                 />
-                <button
-                  onClick={handleValidateCaptcha}
-                  className="btn btn-outline btn-sm mt-2">
-                  Validate
-                </button>
               </div>
               <div className="form-control mt-6">
                 <input
@@ -110,7 +147,7 @@ export default function Login() {
                 />
               </div>
             </form>
-            <p className="text-center mb-4">
+            <p className="text-center mt-4">
               New Here? <Link to="/signup">Create an Account</Link>
             </p>
           </div>

@@ -3,8 +3,9 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 export default function SignUp() {
-  const { createUser, loading } = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -15,6 +16,17 @@ export default function SignUp() {
     createUser(data.email, data.password)
       .then((result) => {
         const loggedUser = result.user;
+        if (loggedUser) {
+          Swal.fire({
+            title: "User Created Successfully",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+        }
         reset();
       })
       .catch((error) => {
