@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+require("dotenv").config();
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const port = process.env.PORT || 5000;
 
@@ -20,6 +21,13 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    const menuCollection = client.db("bistrodb").collection("menu");
+    const reviewsCollection = client.db("bistrodb").collection("reviews");
+
+    app.get("/menu", async (req, res) => {
+      const result = await menuCollection.find().toArray();
+      res.send(result);
+    });
     console.log("You successfully connected to MongoDB!");
   } finally {
   }
