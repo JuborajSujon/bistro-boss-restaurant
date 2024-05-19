@@ -5,7 +5,7 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import { FaGoogle } from "react-icons/fa";
@@ -13,6 +13,10 @@ import { FaGoogle } from "react-icons/fa";
 export default function Login() {
   const [disabled, setDisabled] = useState(true);
   const { signIn, signInWithGoogle } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -32,6 +36,8 @@ export default function Login() {
               popup: "animate__animated animate__fadeOutUp",
             },
           });
+
+          navigate(from, { replace: true });
         }
       })
       .catch((error) => {
@@ -58,6 +64,8 @@ export default function Login() {
               popup: "animate__animated animate__fadeOutUp",
             },
           });
+
+          navigate(from, { replace: true });
         }
         form.reset();
       })
