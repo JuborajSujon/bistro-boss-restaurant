@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
-  LoadCanvasTemplateNoReload,
   validateCaptcha,
 } from "react-simple-captcha";
 
 export default function Login() {
+  const captchaRef = useRef(null);
+  const [disabled, setDisabled] = useState(true);
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -16,8 +17,15 @@ export default function Login() {
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    const captcha = form.captcha.value;
     console.log(email, password);
+  };
+  const handleValidateCaptcha = () => {
+    const value = captchaRef.current.value;
+    if (validateCaptcha(value)) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   };
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -41,7 +49,6 @@ export default function Login() {
                 name="email"
                 placeholder="email"
                 className="input input-bordered"
-                required
               />
             </div>
             <div className="form-control">
@@ -53,7 +60,6 @@ export default function Login() {
                 name="password"
                 placeholder="password"
                 className="input input-bordered"
-                required
               />
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
@@ -68,13 +74,23 @@ export default function Login() {
               <input
                 type="text"
                 name="captcha"
-                placeholder="type the text"
+                ref={captchaRef}
+                placeholder="type the captcha"
                 className="input input-bordered"
                 required
               />
+              <button
+                onClick={handleValidateCaptcha}
+                className="btn btn-outline btn-sm mt-2">
+                Validate
+              </button>
             </div>
             <div className="form-control mt-6">
-              <input type="submit" className="btn btn-primary" />
+              <input
+                disabled={disabled}
+                type="submit"
+                className="btn btn-primary"
+              />
             </div>
           </form>
         </div>
