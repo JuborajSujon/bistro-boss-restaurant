@@ -7,7 +7,7 @@ const ChefRecommenbs = () => {
     <div>
       <SectionTitle subHeading="Should Try" heading="Chef Recommenbs" />
 
-      <div className="grid md:grid-cols-3 gap-2">
+      <div className="grid md:grid-cols-3 gap-10">
         <ChefCard />
         <ChefCard />
         <ChefCard />

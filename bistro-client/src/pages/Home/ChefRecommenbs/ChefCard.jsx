@@ -1,11 +1,11 @@
 const ChefCard = () => {
   return (
     <div className="card  bg-base-100 rounded-none">
-      <figure className="">
+      <figure className="w-full">
         <img
           src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
           alt="Shoes"
-          className="h-1/2"
+          className=""
         />
       </figure>
       <div className="card-body items-center text-center">
