@@ -5,9 +5,15 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import useMenu from "./../../../hooks/useMenu";
 import OrderTab from "../OrderTab/OrderTab";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 export default function Order() {
-  const [tabIndex, setTabIndex] = useState(0);
+  const categories = ["salads", "pizzas", "soups", "desserts", "drinks"];
+  const { category } = useParams();
+  const initialIndex = categories.indexOf(category);
+  const [tabIndex, setTabIndex] = useState(initialIndex);
   const [menu] = useMenu();
+
   const salads = menu.filter((item) => item.category === "salad");
   const pizzas = menu.filter((item) => item.category === "pizza");
   const soups = menu.filter((item) => item.category === "soup");
@@ -16,6 +22,9 @@ export default function Order() {
 
   return (
     <div>
+      <Helmet>
+        <title>Bistro Boss | Food Order</title>
+      </Helmet>
       <Cover img={orderCover} title={"Order Food"} />
       <Tabs
         className={`max-w-7xl mx-auto`}
