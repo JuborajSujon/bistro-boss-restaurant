@@ -43,9 +43,14 @@ async function run() {
       const result = await cartCollection.insertOne(item);
       res.send(result);
     });
-
+    // get cart data by email
     app.get("/carts", async (req, res) => {
-      const result = await cartCollection.find().toArray();
+      const email = req.query.email;
+      if (!email) {
+        res.send([]);
+      }
+      const query = { email: email };
+      const result = await cartCollection.find(query).toArray();
       res.send(result);
     });
 
