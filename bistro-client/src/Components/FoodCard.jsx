@@ -1,9 +1,53 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "./../hooks/useAuth";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 export default function FoodCard({ item }) {
-  const { name, image, price, recipe } = item;
-  const {user} = 
+  const { name, image, price, recipe, _id } = item;
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosSecure = useAxiosSecure();
 
-  const handleAddToCart = (item) => {
-    console.log(item);
+  const handleAddToCart = async (item) => {
+    if (user && user.email) {
+      // TODO: send data to server
+      const cartItem = {
+        menuId: _id,
+        name,
+        image,
+        price,
+        email: user.email,
+      };
+      try {
+        const { data } = await axiosSecure.post("/carts", cartItem);
+        if (data.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Item added to cart",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Swal.fire({
+        title: "You are not logged in!",
+        text: "Please login to add to cart!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, login!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login", { state: { from: location } });
+        }
+      });
+    }
   };
   return (
     <div className="card  bg-base-100 rounded-none">
