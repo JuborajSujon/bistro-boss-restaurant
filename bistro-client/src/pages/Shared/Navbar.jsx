@@ -28,7 +28,7 @@ const Navbar = () => {
         <NavLink to="/order/salads">Food Order</NavLink>
       </li>
       <li>
-        <NavLink to="/">
+        <NavLink to="/dashboard/cart">
           <FaShoppingCart size={"1.2rem"} />
           <sup className="badge badge-secondary">+{cart?.length}</sup>
         </NavLink>

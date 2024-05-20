@@ -54,6 +54,14 @@ async function run() {
       res.send(result);
     });
 
+    // delete cart item
+    app.delete("/carts/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await cartCollection.deleteOne(query);
+      res.send(result);
+    });
+
     console.log("You successfully connected to MongoDB!");
   } finally {
   }
