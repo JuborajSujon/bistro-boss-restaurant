@@ -22,7 +22,8 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const menuCollection = client.db("bistrodb").collection("menu");
-    const reviewsCollection = client.db("bistrodb").collection("reviews");
+    const reviewCollection = client.db("bistrodb").collection("reviews");
+    const cartCollection = client.db("bistrodb").collection("carts");
 
     // Get all menu items from database
     app.get("/menu", async (req, res) => {
@@ -32,7 +33,14 @@ async function run() {
 
     // Get all reviews from database
     app.get("/reviews", async (req, res) => {
-      const result = await reviewsCollection.find().toArray();
+      const result = await reviewCollection.find().toArray();
+      res.send(result);
+    });
+
+    // Carts collection api
+    app.post("/carts", async (req, res) => {
+      const item = req.body;
+      const result = await cartCollection.insertOne(item);
       res.send(result);
     });
 
@@ -49,3 +57,15 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Bistro Boss app listening on port ${port}`);
 });
+
+/**
+ * --------------------
+ * Naming convention
+ * --------------------
+ * app.get('/users')
+ * app.get('/users/:id')
+ * app.post('/users')
+ * app.patch('/users/:id')
+ * app.put('/users/:id')
+ * app.delete('/users/:id')
+ */

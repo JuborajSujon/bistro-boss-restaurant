@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -23,6 +24,12 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink to="/order/salads">Food Order</NavLink>
+      </li>
+      <li>
+        <NavLink to="/">
+          <FaShoppingCart size={"1.2rem"} />
+          <sup className="badge badge-secondary">+0</sup>
+        </NavLink>
       </li>
     </>
   );
@@ -47,14 +54,14 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 text-slate-800 rounded-box w-52">
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 text-slate-800 rounded-box gap-2 w-52">
             {navOption}
           </ul>
         </div>
         <a className="btn btn-ghost text-xl">Bistro Boss</a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{navOption}</ul>
+        <ul className="menu menu-horizontal gap-2 px-1">{navOption}</ul>
       </div>
       <div className="navbar-end">
         {user ? (
