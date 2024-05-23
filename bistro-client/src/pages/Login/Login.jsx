@@ -10,10 +10,12 @@ import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import { FaGoogle } from "react-icons/fa";
 import SocialLogin from "../../Components/SocialLogin";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 export default function Login() {
   const [disabled, setDisabled] = useState(true);
   const { signIn, signInWithGoogle } = useContext(AuthContext);
+  const axiosPublic = useAxiosPublic();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,17 +30,24 @@ export default function Login() {
     signInWithGoogle()
       .then((result) => {
         if (result.user) {
-          Swal.fire({
-            title: "Login Successful",
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
-            },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
-          });
-
-          navigate(from, { replace: true });
+          if (result.user) {
+            const userInfo = {
+              email: result.user?.email,
+              name: result.user?.displayName,
+            };
+            axiosPublic.post("/users", userInfo).then((res) => {
+              Swal.fire({
+                title: "Login Successful",
+                showClass: {
+                  popup: "animate__animated animate__fadeInDown",
+                },
+                hideClass: {
+                  popup: "animate__animated animate__fadeOutUp",
+                },
+              });
+              navigate(from, { replace: true });
+            });
+          }
         }
       })
       .catch((error) => {
