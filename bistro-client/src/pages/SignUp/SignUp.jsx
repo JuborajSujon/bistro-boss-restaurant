@@ -1,13 +1,18 @@
 import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../Components/SocialLogin";
 export default function SignUp() {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, signInWithGoogle } =
+    useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const axiosPublic = useAxiosPublic();
   const {
     register,
@@ -52,6 +57,29 @@ export default function SignUp() {
         console.log(error);
       });
   };
+
+  // google login
+  const handleGoogleLogin = () => {
+    signInWithGoogle()
+      .then((result) => {
+        if (result.user) {
+          Swal.fire({
+            title: "Login Successful",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+
+          navigate(from, { replace: true });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <Helmet>
@@ -67,8 +95,9 @@ export default function SignUp() {
               et a id nisi.
             </p>
           </div>
-          <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+          <div className="card md:w-1/2 w-full max-w-sm shadow-2xl bg-base-100 p-10">
+            <SocialLogin handleGoogleLogin={handleGoogleLogin} />
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Name</span>
@@ -133,7 +162,7 @@ export default function SignUp() {
                 <button className="btn btn-primary">Sign Up</button>
               </div>
             </form>
-            <p className="text-center mb-4">
+            <p className="text-center mt-4">
               Already have an account?{" "}
               <Link className="text-orange-600 font-bold" to="/login">
                 Login

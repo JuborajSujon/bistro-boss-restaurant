@@ -9,6 +9,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import { FaGoogle } from "react-icons/fa";
+import SocialLogin from "../../Components/SocialLogin";
 
 export default function Login() {
   const [disabled, setDisabled] = useState(true);
@@ -99,12 +100,7 @@ export default function Login() {
           </div>
 
           <div className="card md:w-1/2 w-full max-w-sm shadow-2xl bg-base-100 p-10">
-            <div
-              onClick={handleGoogleLogin}
-              className="flex justify-center items-center text-xl gap-2 py-2 border border-slate-300 rounded-md w-[90%] mx-auto ">
-              <FaGoogle />
-              Google Login
-            </div>
+            <SocialLogin handleGoogleLogin={handleGoogleLogin} />
             <div className="divider">or</div>
             <form onSubmit={handleLogin} className="">
               <div className="form-control">
