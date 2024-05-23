@@ -52,6 +52,12 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUesr(currentUser);
+      if (currentUser) {
+        // get and set token
+      } else {
+        // TODO: remove token (if logged out and if token stored in the client side : localStorage, caching, in memory )
+        // if use token stored in the cookie : remove it from the server side
+      }
       setLoading(false);
     });
 
