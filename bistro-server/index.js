@@ -29,6 +29,18 @@ async function run() {
     // usesr related api
     app.post("/users", async (req, res) => {
       const user = req.body;
+      //insert email if user does not exist
+      // may way you can (1. email unique, 2. upsert 3. simple checking )
+
+      const query = { email: user.email };
+      const existingUser = await userCollection.findOne(query);
+      if (existingUser) {
+        return res.send({
+          message: "User already exists",
+          success: false,
+          insertedId: null,
+        });
+      }
       const result = await userCollection.insertOne(user);
       res.send(result);
     });

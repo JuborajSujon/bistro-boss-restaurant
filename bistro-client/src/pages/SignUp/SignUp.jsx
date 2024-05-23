@@ -63,17 +63,22 @@ export default function SignUp() {
     signInWithGoogle()
       .then((result) => {
         if (result.user) {
-          Swal.fire({
-            title: "Login Successful",
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
-            },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
+          const userInfo = {
+            email: result.user?.email,
+            name: result.user?.displayName,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            Swal.fire({
+              title: "Login Successful",
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+            });
+            navigate(from, { replace: true });
           });
-
-          navigate(from, { replace: true });
         }
       })
       .catch((error) => {
