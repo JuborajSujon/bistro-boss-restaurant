@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 export default function SignUp() {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
@@ -20,17 +22,26 @@ export default function SignUp() {
         if (loggedUser) {
           updateUserProfile(data.name, data.photoURL)
             .then(() => {
-              Swal.fire({
-                title: "Sign Up Successful",
-                showClass: {
-                  popup: "animate__animated animate__fadeInDown",
-                },
-                hideClass: {
-                  popup: "animate__animated animate__fadeOutUp",
-                },
+              // create user entry in database
+              const userInfo = {
+                name: data.name,
+                email: data.email,
+              };
+              axiosPublic.post("/users", userInfo).then((res) => {
+                if (res.data.insertedId) {
+                  Swal.fire({
+                    title: "Sign Up Successful",
+                    showClass: {
+                      popup: "animate__animated animate__fadeInDown",
+                    },
+                    hideClass: {
+                      popup: "animate__animated animate__fadeOutUp",
+                    },
+                  });
+                  navigate("/");
+                  reset();
+                }
               });
-              navigate("/");
-              reset();
             })
             .catch((error) => {
               console.log(error);
