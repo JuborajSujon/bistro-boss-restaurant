@@ -9,6 +9,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 
@@ -17,6 +18,7 @@ export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   const googleProvider = new GoogleAuthProvider();
+  const axiosPublic = useAxiosPublic();
   // create user
   const createUser = (email, password) => {
     setLoading(true);
@@ -54,9 +56,19 @@ export default function AuthProvider({ children }) {
       setUesr(currentUser);
       if (currentUser) {
         // get and set token
+        const userInfo = {
+          email: currentUser?.email,
+        };
+        axiosPublic.post("/jwt", userInfo).then((data) => {
+          if (data.data.token) {
+            localStorage.setItem("access-token", data.data.token);
+            setLoading(false);
+          }
+        });
       } else {
         // TODO: remove token (if logged out and if token stored in the client side : localStorage, caching, in memory )
         // if use token stored in the cookie : remove it from the server side
+        localStorage.removeItem("access-token");
       }
       setLoading(false);
     });
@@ -64,7 +76,7 @@ export default function AuthProvider({ children }) {
     return () => {
       return unsubscribe();
     };
-  }, []);
+  }, [axiosPublic]);
 
   const authInfo = {
     user,
