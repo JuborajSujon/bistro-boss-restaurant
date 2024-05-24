@@ -14,11 +14,12 @@ import { GiWallet } from "react-icons/gi";
 import { MdBookmarkBorder, MdRestaurantMenu } from "react-icons/md";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 
 export default function Dashboard() {
   const [cart] = useCart();
-  //TODO: Get is admin value from database
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
+
   return (
     <div className="drawer">
       <div className="w-64 min-h-screen  bg-orange-400">
