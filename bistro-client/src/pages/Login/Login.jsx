@@ -110,7 +110,6 @@ export default function Login() {
 
           <div className="card md:w-1/2 w-full max-w-sm shadow-2xl bg-base-100 p-10">
             <SocialLogin handleGoogleLogin={handleGoogleLogin} />
-            <div className="divider">or</div>
             <form onSubmit={handleLogin} className="">
               <div className="form-control">
                 <label className="label">
