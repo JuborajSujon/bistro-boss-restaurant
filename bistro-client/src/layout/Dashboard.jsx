@@ -20,8 +20,6 @@ export default function Dashboard() {
   const [cart] = useCart();
   const [isAdmin] = useAdmin();
 
-  console.log(isAdmin);
-
   return (
     <div className="drawer">
       <div className="w-64 min-h-screen  bg-orange-400">
