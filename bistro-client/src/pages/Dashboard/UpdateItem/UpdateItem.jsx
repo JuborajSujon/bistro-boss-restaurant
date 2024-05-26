@@ -10,7 +10,7 @@ const image_api_key = import.meta.env.VITE_IMAGEBB_API_KEY;
 const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_api_key}`;
 
 const UpdateItem = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
 
@@ -36,7 +36,9 @@ const UpdateItem = () => {
       //send menu item data to the server - axios secure use for authentication -admin
       const menuRes = await axiosSecure.patch(`/menu/${_id}`, menuItem);
 
-      if (menuRes.data.insertedId) {
+      console.log(menuRes);
+
+      if (menuRes.data.modifiedCount > 0) {
         //show success toast
         Swal.fire({
           position: "top-end",
@@ -45,8 +47,6 @@ const UpdateItem = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-
-        reset();
       }
     }
   };
