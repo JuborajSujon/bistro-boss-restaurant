@@ -90,7 +90,7 @@ export default function Dashboard() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/review">
+                <NavLink to="/dashboard/paymentHistory">
                   <GiWallet size={"1.2rem"} />
                   Payment History
                 </NavLink>
