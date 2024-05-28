@@ -8,7 +8,6 @@ const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const [cart] = useCart();
   const handleLogout = () => {
-    console.log(user);
     logout()
       .then(() => {})
       .catch((error) => {
