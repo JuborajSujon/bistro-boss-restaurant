@@ -1,4 +1,10 @@
 import SectionTitle from "./../../../Components/SectionTitle";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckOutForm from "./CheckOutForm";
+
+// TODO: Add publishable
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_GETWAY_PK);
 
 const Payment = () => {
   return (
@@ -6,7 +12,9 @@ const Payment = () => {
       <SectionTitle subHeading="Please Process" heading="Payment" />
 
       <div>
-        <h2 className="text-3xl">Teka o pahki tumi uira uri aso</h2>
+        <Elements stripe={stripePromise}>
+          <CheckOutForm />
+        </Elements>
       </div>
     </div>
   );
