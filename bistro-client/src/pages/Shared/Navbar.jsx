@@ -3,9 +3,11 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { FaShoppingCart } from "react-icons/fa";
 import useCart from "../../hooks/useCart";
+import useAdmin from "../../hooks/useAdmin";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const [isAdmin] = useAdmin();
   const [cart] = useCart();
   const handleLogout = () => {
     logout()
@@ -26,6 +28,22 @@ const Navbar = () => {
       <li>
         <NavLink to="/order/salads">Food Order</NavLink>
       </li>
+      {user && isAdmin && (
+        <li>
+          <NavLink to="/secret">Secret</NavLink>
+        </li>
+      )}
+      {user && isAdmin && (
+        <li>
+          <NavLink to="/dashboard/adminHome">Dashboard</NavLink>
+        </li>
+      )}
+      {user && !isAdmin && (
+        <li>
+          <NavLink to="/dashboard/userHome">Dashboard</NavLink>
+        </li>
+      )}
+
       <li>
         <NavLink to="/dashboard/cart">
           <FaShoppingCart size={"1.2rem"} />

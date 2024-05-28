@@ -60,7 +60,7 @@ export default function Dashboard() {
           ) : (
             <>
               <li>
-                <NavLink to="/">
+                <NavLink to="/dashboard/userHome">
                   <FaHome size={"1.2rem"} />
                   User Home
                 </NavLink>

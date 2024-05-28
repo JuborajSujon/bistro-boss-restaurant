@@ -69,8 +69,8 @@ export default function AuthProvider({ children }) {
         // TODO: remove token (if logged out and if token stored in the client side : localStorage, caching, in memory )
         // if use token stored in the cookie : remove it from the server side
         localStorage.removeItem("access-token");
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => {
