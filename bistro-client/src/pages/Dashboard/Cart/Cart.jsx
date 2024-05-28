@@ -2,6 +2,7 @@ import { FaTrash } from "react-icons/fa";
 import useCart from "../../../hooks/useCart";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 export default function Cart() {
   const [cart, refetch] = useCart();
@@ -37,7 +38,13 @@ export default function Cart() {
         <h2 className="text-3xl font-bold">
           Total Price : {cart?.reduce((sum, item) => sum + item.price, 0)}
         </h2>
-        <button className="btn btn-primary">Pay</button>
+
+        <Link
+          to="/dashboard/payment"
+          disabled={cart.length === 0}
+          className="btn btn-primary">
+          Pay
+        </Link>
       </div>
       <div className="overflow-x-auto ">
         <table className="table ">
