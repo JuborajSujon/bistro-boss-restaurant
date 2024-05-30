@@ -342,7 +342,7 @@ async function run() {
       res.send(result);
     });
 
-    console.log("You successfully connected to MongoDB!");
+    // console.log("You successfully connected to MongoDB!");
   } finally {
   }
 }
