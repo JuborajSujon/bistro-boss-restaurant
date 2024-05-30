@@ -9,14 +9,21 @@ import { Rating } from "@smastrom/react-rating";
 import { FaQuoteLeft } from "react-icons/fa";
 
 import "@smastrom/react-rating/style.css";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const Testimonials = () => {
   const [reviews, setReviews] = useState([]);
+  const axiosPublic = useAxiosPublic();
   useEffect(() => {
-    fetch("http://localhost:5000/reviews")
-      .then((res) => res.json())
-      .then((data) => setReviews(data));
-  }, []);
+    // fetch(`http://localhost:5000/reviews`)
+    //   .then((res) => res.json())
+    //   .then((data) => setReviews(data));
+    const testimonial = async () => {
+      const { data } = await axiosPublic("/reviews");
+      setReviews(data);
+    };
+    testimonial();
+  }, [axiosPublic]);
 
   return (
     <div>
